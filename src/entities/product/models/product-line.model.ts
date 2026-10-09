@@ -1,5 +1,4 @@
-import { Product, ProductStatus } from "@entities/product/models/product.model"
-
+import { Product, ProductStatus } from '@entities/product/models/product.model';
 
 export enum ProductEventType {
     ADDED = 'added',
@@ -8,44 +7,44 @@ export enum ProductEventType {
 }
 
 export type ProductLineEvent = {
-    id: string,
-    productId: string,
-    type: ProductEventType,
-    timestamp: number,
-    previousStatus?: ProductStatus,
-    newStatus?: ProductStatus
-}
+    id: string;
+    productId: string;
+    type: ProductEventType;
+    timestamp: number;
+    previousStatus?: ProductStatus;
+    newStatus?: ProductStatus;
+};
 
 export class ProductLineEventCreator {
     static addEvent(product: Product): ProductLineEvent {
-        const { id: productId, timestamp } = product
+        const { id: productId, timestamp } = product;
         return {
             id: crypto.randomUUID(),
             type: ProductEventType.ADDED,
             productId,
             timestamp,
-        }
+        };
     }
 
     static statusChangeEvent(product: Product, previousStatus: ProductStatus): ProductLineEvent {
-        const { id: productId, timestamp, status: newStatus } = product
+        const { id: productId, timestamp, status: newStatus } = product;
         return {
             id: crypto.randomUUID(),
             type: ProductEventType.STATUS_CHANGED,
             productId,
             timestamp,
             previousStatus,
-            newStatus
-        }
+            newStatus,
+        };
     }
 
     static removeEvent(product: Product): ProductLineEvent {
-        const { id: productId, timestamp } = product
+        const { id: productId, timestamp } = product;
         return {
             id: crypto.randomUUID(),
             type: ProductEventType.REMOVED,
             productId,
             timestamp,
-        }
+        };
     }
 }

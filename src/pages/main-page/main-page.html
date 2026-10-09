@@ -1,1 +1,24 @@
 <p>main-page works!</p>
+<button (click)="addProduct()">Добавить продукт</button>
+<button (click)="runNextTact()">Следующий такт</button>
+<div class="aaa">
+    <div>
+        @for (product of productLineService.productsOnLine(); track product.id) {
+            <app-ui-product />
+        }
+    </div>
+
+    <div>
+        @for (entry of productJournalService.logEntries(); track entry.id) {
+            <article>
+                Событие
+                <div>
+                    {{ entry.id }}
+                </div>
+                <div>
+                    {{ entry.productId }}
+                </div>
+            </article>
+        }
+    </div>
+</div>

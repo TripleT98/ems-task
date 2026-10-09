@@ -5,7 +5,7 @@ export enum ProductStatus {
 }
 
 export type Product = {
-    id: string,
-    timestamp: number,
-    status: ProductStatus
-}
+    id: string;
+    timestamp: number;
+    status: ProductStatus;
+};

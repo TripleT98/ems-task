@@ -1,22 +1,23 @@
-import { Injectable } from "@angular/core";
-import { tap } from "rxjs";
-import { ProductJounralStoreService } from "@entities/journal/product-journal/services/product-journal-store.service";
-import { ProductLineEvent } from "@entities/product/models/product-line.model";
-import { ProductLineService } from "@entities/product/services/product-line.service";
+import { computed, Injectable } from '@angular/core';
+import { tap } from 'rxjs';
+import { ProductJounralStoreService } from '@entities/journal/product-journal/services/product-journal-store.service';
+import { ProductLineEvent } from '@entities/product/models/product-line.model';
+import { ProductLineService } from '@entities/product/services/product-line.service';
 
-Injectable()
+@Injectable()
 export class ProductJournalService {
+    readonly logEntries = computed(() => this.productJounralStoreService.entities());
+
     constructor(
         private productLineService: ProductLineService,
-        private productJounralStoreService: ProductJounralStoreService
-    ){}
+        private productJounralStoreService: ProductJounralStoreService,
+    ) {}
 
     observeEvents() {
-        return this.productLineService.eventObs
-            .pipe(
-                tap((event) => {
-                    this.productJounralStoreService.put(event)
-                })
-            )
+        return this.productLineService.eventObs.pipe(
+            tap((event) => {
+                this.productJounralStoreService.put(event);
+            }),
+        );
     }
 }

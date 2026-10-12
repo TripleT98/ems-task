@@ -73,13 +73,14 @@
         type="button"
         size="s"
         topRight
-        tuiDropdownAuto
+        [(tuiDropdownOpen)]="openedDropdowns[product.id]"
         [tuiDropdown]="content"
     ></button>
     <ng-template #content>
         <app-set-product-status-button
             [product]="product"
             [productStatuses]="[ProductStatus.CHECKED, ProductStatus.REJECTED]"
+            (selected)="toggleProductDropdownStatus(product.id, false)"
         />
     </ng-template>
 </ng-template>

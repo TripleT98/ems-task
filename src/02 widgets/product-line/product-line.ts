@@ -1,10 +1,10 @@
-import { Component, computed } from '@angular/core';
+import { Component, computed, effect } from '@angular/core';
 import { NgTemplateOutlet } from '@angular/common';
 import { ProductLineService } from '@entities/product/services/product-line.service';
 import { ProductStatus } from '@entities/product/models/product.model';
 import { TuiCardLarge, TuiHeader } from '@taiga-ui/layout';
 import { UiProductStatus } from '@shared/ui/ui-product-status/ui-product-status';
-import { TuiButton, TuiDropdown, TuiScrollbar, TuiTitle } from '@taiga-ui/core';
+import { TuiButton, TuiDropdown, TuiDropdownOpen, TuiScrollbar, TuiTitle } from '@taiga-ui/core';
 import { ClearLineButton } from '@features/product-line/clear-line-button/clear-line-button';
 import { NextTackButton } from '@features/product-line/next-tack-button/next-tack-button';
 import { UiProduct } from '@entities/product/ui/ui-product/ui-product';
@@ -27,6 +27,7 @@ import { ProductEventType } from '@entities/product/models/product-line.model';
         UiProduct,
         TuiScrollbar,
         TuiDropdown,
+        TuiDropdownOpen,
         TuiButton,
         SetProductStatusButton,
         NgTemplateOutlet,
@@ -54,11 +55,21 @@ export class ProductLine {
 
     protected readonly POP_ANIMATION_DURATION = 1000;
 
+    protected readonly openedDropdowns: { [productId: string]: boolean } = {} 
+
     constructor(private productLineService: ProductLineService) {
         this.observeLineEvents().pipe(takeUntilDestroyed()).subscribe();
+
+        effect(() => {
+            this.products().forEach(({ id }) => {
+                if (!Object.prototype.hasOwnProperty.call(this.openedDropdowns, id)) {
+                    this.toggleProductDropdownStatus(id, false)
+                }
+            })
+        })
     }
 
-    observeLineEvents() {
+    private observeLineEvents() {
         return this.productLineService.eventObs.pipe(
             mergeMap((event) => {
                 switch (event.type) {
@@ -77,5 +88,9 @@ export class ProductLine {
                 );
             }),
         );
+    }
+
+    toggleProductDropdownStatus(productId: string, status: boolean) {
+        this.openedDropdowns[productId] = status
     }
 }

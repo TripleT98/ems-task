@@ -1,6 +1,6 @@
 import { Component, input } from '@angular/core';
 import { ProductLineService } from '@entities/product/services/product-line.service';
-import { TuiButton, TuiButtonX } from '@taiga-ui/core';
+import { TuiButtonX } from '@taiga-ui/core';
 
 @Component({
     imports: [TuiButtonX],

@@ -4,26 +4,23 @@ import {
     OnDestroy,
     OnInit,
     computed,
-    input,
-    output,
     signal,
 } from '@angular/core';
-import { FormField, disabled, form, required, validate } from '@angular/forms/signals';
+import { FormField, disabled, form, required } from '@angular/forms/signals';
 import { MaskitoDirective } from '@maskito/angular';
 import type { MaskitoOptions } from '@maskito/core';
 import { TuiButton, TuiTextfield, TuiInput, TuiIcon } from '@taiga-ui/core';
-import { ProductStatus } from '@entities/product/models/product.model';
+import { Product, ProductStatus } from '@entities/product/models/product.model';
 import { formatDate } from '@shared/utils/date';
 import { TuiCardLarge, TuiHeader } from '@taiga-ui/layout';
 import { ProductLineService } from '@entities/product/services/product-line.service';
 import { TuiTooltip } from '@taiga-ui/kit';
 import { statusText } from '@entities/product/consts/statuses';
 import { uniqueValueValidator } from '@shared/utils/validation';
+import { ValidationErrors } from '@shared/const/validation.errors';
 
-export interface ProductDraft {
-    id: string;
-    timestamp: string;
-    status: string;
+export type ProductDraft = {
+    [key in keyof Product]: string
 }
 
 @Component({
@@ -48,7 +45,6 @@ export class CreateProductFormComponent implements OnInit, OnDestroy {
     existingIds = computed(() =>
         this.productLineService.productsOnLine().map((product) => product.id),
     );
-    productCreated = output<ProductDraft>();
 
     private readonly now = signal(new Date());
 
@@ -60,13 +56,13 @@ export class CreateProductFormComponent implements OnInit, OnDestroy {
 
     readonly productForm = form(this.productModel, (path) => {
         required(path.id, {
-            message: 'Введите ID продукта',
+            message: ValidationErrors.ENTER_PRODUCT_ID,
         });
 
         uniqueValueValidator(
             () => this.existingIds(),
             (id: string) => id,
-            'Продукт с таким ID уже существует',
+            ValidationErrors.PRODUCT_ID_ALREADY_EXISTS,
         )(path.id);
 
         disabled(path.timestamp);
@@ -110,10 +106,6 @@ export class CreateProductFormComponent implements OnInit, OnDestroy {
             timestamp: new Date().getTime(),
             status: ProductStatus.IN_QUEUE,
         };
-
-        this.productCreated.emit({
-            ...this.productModel(),
-        });
 
         this.productLineService.addProduct(producData);
 

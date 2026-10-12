@@ -1,5 +1,5 @@
-import { Injectable, signal, WritableSignal } from '@angular/core';
-import { Product, ProductStatus } from '@entities/product/models/product.model';
+import { Injectable } from '@angular/core';
+import { Product } from '@entities/product/models/product.model';
 import { EntityStore } from '@shared/models/entities-storage.model';
 import { LocalStorageKeys } from '@shared/models/local-storage.models';
 import { StorageService } from '@shared/models/storage.model';

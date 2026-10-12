@@ -19,7 +19,7 @@ export type ProductLineEvent = {
 
 export class ProductLineEventCreator {
     static addEvent(product: Product): ProductLineEvent {
-        const { id: productId, timestamp, status } = product;
+        const { id: productId, status } = product;
         return {
             id: crypto.randomUUID(),
             type: ProductEventType.ADDED,
@@ -30,7 +30,7 @@ export class ProductLineEventCreator {
     }
 
     static statusChangeEvent(product: Product, previousStatus: ProductStatus): ProductLineEvent {
-        const { id: productId, timestamp, status: newStatus } = product;
+        const { id: productId, status: newStatus } = product;
         return {
             id: crypto.randomUUID(),
             type: ProductEventType.STATUS_CHANGED,

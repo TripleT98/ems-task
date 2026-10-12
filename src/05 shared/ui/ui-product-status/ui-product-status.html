@@ -1,0 +1,5 @@
+<div [appearance]="color() || 'neutral'" tuiBadge tuiStatus class="status">
+    @if (withText()) {
+        <span class="status__text">{{ text() }}</span>
+    }
+</div>

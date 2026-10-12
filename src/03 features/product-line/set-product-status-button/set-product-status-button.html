@@ -1,0 +1,7 @@
+<tui-data-list>
+    <tui-opt-group label="Установить статус">
+        @for (status of availableStatuses(); track status) {
+            <app-ui-product-status tuiOption [status]="status" (click)="setProductStatus(status)" />
+        }
+    </tui-opt-group>
+</tui-data-list>

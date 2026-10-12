@@ -15,9 +15,11 @@
     "module": "preserve",
     "paths": {
       "@app/*": ["./src/app/*"],
-      "@pages/*": ["./src/pages/*"],
-      "@shared/*": ["./src/shared/*"],
-      "@entities/*": ["./src/entities/*"]
+      "@pages/*": ["./src/01 pages/*"],
+      "@widgets/*": ["./src/02 widgets/*"],
+      "@features/*": ["./src/03 features/*"],
+      "@entities/*": ["./src/04 entities/*"],
+      "@shared/*": ["./src/05 shared/*"],
     }
   },
   "angularCompilerOptions": {

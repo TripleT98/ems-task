@@ -1,0 +1,46 @@
+@let events = logEntries();
+
+@if (title()) {
+    <header tuiHeader="body-l" class="header" [class.header--with-empty]="!events.length">
+        <h6 tuiTitle>
+            {{ title() }}
+        </h6>
+    </header>
+}
+
+@if (events.length) {
+    <div class="actions">
+        <ng-content select="[journal-actions]" />
+    </div>
+
+    <tui-scrollbar class="table-scroll" [class.table-scroll--with-header]="!!title()">
+        <table tuiTable class="table">
+            <thead>
+                <tr>
+                    <th tuiTh [sticky]="true" [style.width.px]="80">Статус</th>
+                    <th tuiTh [sticky]="true" [style.width.px]="150">Дата</th>
+                    <th tuiTh [sticky]="true">Описание</th>
+                </tr>
+            </thead>
+            <tbody tuiTbody>
+                @for (entry of events; track entry.id) {
+                    <tr>
+                        <td tuiTd>
+                            <app-ui-product-status [status]="entry.newStatus" [withText]="false" />
+                        </td>
+                        <td tuiTd class="table__cell-date">
+                            {{ entry.timestamp | date: 'dd-MM-yyyy hh:mm' }}
+                        </td>
+
+                        @let description = entry | getLogEntryText;
+                        <td tuiTd class="table__cell-description" [tuiHint]="description">
+                            {{ description }}
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </tui-scrollbar>
+} @else {
+    <app-ui-empty-content />
+}

@@ -1,0 +1,43 @@
+$gap: 10px;
+$top-height: 370px;
+$bottom-height: calc(100% - ($top-height + $gap));
+
+:host {
+    display: flex;
+    flex-direction: column;
+    padding: $gap;
+    gap: $gap;
+    height: 100vh;
+    min-height: 880px;
+    box-sizing: border-box;
+}
+
+.top {
+    height: $top-height;
+    flex-shrink: 0;
+}
+
+.bottom {
+    $left-width: 35%;
+    $mid-width: 20%;
+    $right-width: calc(100% - ($left-width + $mid-width));
+    display: flex;
+    flex-shrink: 1;
+    gap: $gap;
+    height: $bottom-height;
+    width: 100%;
+
+    &__left {
+        width: $left-width;
+    }
+
+    &__mid {
+        width: $mid-width;
+    }
+
+    &__right {
+        width: $right-width;
+        flex-grow: 1;
+        flex-shrink: 0;
+    }
+}

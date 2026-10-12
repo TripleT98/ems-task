@@ -1,0 +1,9 @@
+<tui-block-status class="card" [card]="true">
+    <div
+        tuiSlot="top"
+        class="card__image"
+        [style.--image-src]="'url(' + src() + ')'"
+        [style.--image-size]="imageSize() + 'px'"
+    ></div>
+    {{ text() }}
+</tui-block-status>

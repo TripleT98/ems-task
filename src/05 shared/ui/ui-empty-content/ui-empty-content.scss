@@ -1,0 +1,12 @@
+$color: var(--tui-text-tertiary);
+
+.card {
+    color: $color;
+
+    &__image {
+        height: var(--image-size);
+        aspect-ratio: 1/1;
+        background-color: $color;
+        mask: var(--image-src) no-repeat center / contain;
+    }
+}

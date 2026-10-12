@@ -1,0 +1,10 @@
+<div appearance="floating" tuiCardMedium class="product">
+    <div class="product__actions">
+        <ng-content select="[product-actions]" />
+    </div>
+    <h3 tuiTitle>
+        # {{ product().id.slice(0, 5) }}
+        <span tuiSubtitle>{{ product().timestamp | date: 'HH:mm:ss' }}</span>
+    </h3>
+    <app-ui-product-status [status]="product().status" />
+</div>

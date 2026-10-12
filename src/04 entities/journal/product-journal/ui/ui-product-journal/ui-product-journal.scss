@@ -1,0 +1,52 @@
+$header-height: 30px;
+
+:host {
+    display: block;
+    height: 100%;
+    position: relative;
+}
+
+.header {
+    line-height: $header-height;
+
+    &--with-empty {
+        color: var(--tui-text-tertiary);
+    }
+}
+
+.actions {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+.table-scroll {
+    &--with-header {
+        height: calc(100% - $header-height);
+    }
+}
+
+.table {
+    width: 100%;
+    table-layout: fixed;
+    overflow-x: clip;
+
+    &__cell-description {
+        text-overflow: ellipsis;
+        overflow: hidden;
+    }
+
+    &__cell-date {
+        color: var(--tui-text-secondary);
+    }
+}
+
+[tuiTh] {
+    border-block-start: none;
+}
+
+[tuiTh],
+[tuiTd] {
+    border-inline: none;
+    white-space: nowrap;
+}

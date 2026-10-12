@@ -1,0 +1,62 @@
+<div tuiCardLarge appearance="floating" class="container">
+    <ng-container [ngTemplateOutlet]="header" />
+    <tui-scrollbar>
+        <div class="container__line">
+            @for (product of products(); track product.id) {
+                <app-ui-product class="container__product" [product]="product">
+                    <ng-container
+                        product-actions
+                        [ngTemplateOutlet]="productAction"
+                        [ngTemplateOutletContext]="{ product }"
+                    />
+                </app-ui-product>
+            }
+        </div>
+    </tui-scrollbar>
+    <ng-container [ngTemplateOutlet]="actions" />
+</div>
+
+<ng-template #header>
+    <header tuiHeader class="container__header">
+        <h3 tuiTitle>
+            Очередь продуктов
+            <div tuiSubtitle class="container__subtitle">
+                Продукты движутся от входного датчика к датчику отбраковки
+            </div>
+        </h3>
+
+        <aside tuiAccessories class="container__statuses">
+            @for (status of productStatutses; track status) {
+                <app-ui-product-status class="status" [status]="status" />
+            }
+        </aside>
+    </header>
+</ng-template>
+
+<ng-template #actions>
+    <div class="container__actions">
+        <app-next-tack-button />
+        <app-add-product-button />
+        <app-clear-line-button />
+    </div>
+</ng-template>
+
+<ng-template #productAction let-product="product">
+    <app-remove-product-button [productId]="product.id" />
+    <button
+        appearance="flat"
+        iconStart="@tui.ellipsis-vertical"
+        tuiIconButton
+        type="button"
+        size="s"
+        topRight
+        tuiDropdownAuto
+        [tuiDropdown]="content"
+    ></button>
+    <ng-template #content>
+        <app-set-product-status-button
+            [product]="product"
+            [productStatuses]="[ProductStatus.CHECKED, ProductStatus.REJECTED]"
+        />
+    </ng-template>
+</ng-template>

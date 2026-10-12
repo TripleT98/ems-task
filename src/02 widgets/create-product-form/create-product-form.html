@@ -1,0 +1,70 @@
+<div tuiCardLarge appearance="floating" class="container">
+    <form class="product-form" novalidate (submit)="$event.preventDefault(); submit()">
+        <div class="product-form__header">
+            <h2 class="product-form__title">Добавление продукта</h2>
+
+            <tui-icon
+                icon="@tui.info"
+                tuiHintDirection="bottom-end"
+                [tuiTooltip]="description"
+                aria-label="Описание полей формы"
+            />
+        </div>
+
+        <div class="product-form__field">
+            <label class="product-form__label" for="product-id"> ID продукта </label>
+
+            <tui-textfield>
+                <input
+                    id="product-id"
+                    tuiInput
+                    [formField]="productForm.id"
+                    [maskito]="idMask"
+                    placeholder="P-00001"
+                    autocomplete="off"
+                />
+            </tui-textfield>
+
+            @if (productForm.id().touched() && productForm.id().invalid()) {
+                <div class="product-form__errors">
+                    @for (error of productForm.id().errors(); track error.kind) {
+                        <span>{{ error.message }}</span>
+                    }
+                </div>
+            }
+        </div>
+
+        <div class="product-form__field">
+            <label class="product-form__label" for="product-added-at"> Время добавления </label>
+
+            <tui-textfield>
+                <input id="product-added-at" tuiInput [formField]="productForm.addedAt" />
+            </tui-textfield>
+        </div>
+
+        <div class="product-form__field">
+            <label class="product-form__label" for="product-status"> Статус </label>
+
+            <tui-textfield>
+                <input id="product-status" tuiInput [formField]="productForm.status" />
+            </tui-textfield>
+        </div>
+
+        <button
+            tuiButton
+            type="submit"
+            class="product-form__submit"
+            [disabled]="productForm().invalid()"
+        >
+            Добавить продукт
+        </button>
+    </form>
+</div>
+
+<ng-template #description>
+    <div class="product-form__description">
+        <p><strong>ID продукта</strong> — уникальный идентификатор продукта.</p>
+        <p><strong>Время поступления</strong> — текущее время добавления продукта.</p>
+        <p><strong>Начальный статус</strong> — «В очереди».</p>
+    </div>
+</ng-template>

@@ -1,0 +1,13 @@
+:host {
+    display: block;
+}
+
+.product {
+    position: relative;
+
+    &__actions {
+        position: absolute;
+        top: 0px;
+        right: 0px;
+    }
+}

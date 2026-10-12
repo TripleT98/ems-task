@@ -2,6 +2,7 @@ import { computed, Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 import { Product, ProductStatus } from '@entities/product/models/product.model';
 import {
+    ProductEventType,
     ProductLineEvent,
     ProductLineEventCreator,
 } from '@entities/product/models/product-line.model';
@@ -55,7 +56,9 @@ export class ProductLineService {
 
         const result = this.productsStoreService.delete(productId);
         if (result) {
-            this.event$.next(ProductLineEventCreator.removeEvent(product));
+            this.event$.next(
+                ProductLineEventCreator.removeEvent(product, ProductEventType.REMOVED),
+            );
         }
         return result;
     }

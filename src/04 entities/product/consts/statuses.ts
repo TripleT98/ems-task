@@ -4,6 +4,12 @@ export enum DefaultStatus {
     DEAFAULT = 'default',
 }
 
+export const statuses: ProductStatus[] = [
+    ProductStatus.IN_QUEUE,
+    ProductStatus.CHECKED,
+    ProductStatus.REJECTED,
+];
+
 export const statusText = new Map<ProductStatus | DefaultStatus, string>([
     [ProductStatus.IN_QUEUE, 'В очереди'],
     [ProductStatus.CHECKED, 'Проверен'],

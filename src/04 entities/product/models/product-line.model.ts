@@ -4,6 +4,7 @@ export enum ProductEventType {
     ADDED = 'added',
     STATUS_CHANGED = 'status_changed',
     REMOVED = 'removed',
+    AUTO_REMOVE = 'auto_remove',
     CLEAR = 'clear',
 }
 
@@ -40,11 +41,15 @@ export class ProductLineEventCreator {
         };
     }
 
-    static removeEvent(product: Product): ProductLineEvent {
+    static removeEvent(
+        product: Product,
+        removeType:
+            ProductEventType.AUTO_REMOVE | ProductEventType.REMOVED = ProductEventType.AUTO_REMOVE,
+    ): ProductLineEvent {
         const { id: productId } = product;
         return {
             id: crypto.randomUUID(),
-            type: ProductEventType.REMOVED,
+            type: removeType,
             productId,
             timestamp: new Date().getTime(),
         };

@@ -1,7 +1,7 @@
 <div tuiCardLarge appearance="floating" class="container">
     <form class="product-form" novalidate (submit)="$event.preventDefault(); submit()">
-        <div class="product-form__header">
-            <h2 class="product-form__title">Добавление продукта</h2>
+        <header tuiHeader="body-l">
+            <h6 tuiTitle>Добавление продукта</h6>
 
             <tui-icon
                 icon="@tui.info"
@@ -9,7 +9,7 @@
                 [tuiTooltip]="description"
                 aria-label="Описание полей формы"
             />
-        </div>
+        </header>
 
         <div class="product-form__field">
             <label class="product-form__label" for="product-id"> ID продукта </label>
@@ -25,7 +25,7 @@
                 />
             </tui-textfield>
 
-            @if (productForm.id().touched() && productForm.id().invalid()) {
+            @if (productForm.id().dirty() && productForm.id().invalid()) {
                 <div class="product-form__errors">
                     @for (error of productForm.id().errors(); track error.kind) {
                         <span>{{ error.message }}</span>
@@ -38,7 +38,7 @@
             <label class="product-form__label" for="product-added-at"> Время добавления </label>
 
             <tui-textfield>
-                <input id="product-added-at" tuiInput [formField]="productForm.addedAt" />
+                <input id="product-added-at" tuiInput [formField]="productForm.timestamp" />
             </tui-textfield>
         </div>
 

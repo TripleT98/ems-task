@@ -19,6 +19,8 @@ export class GetLogEntryTextPipe implements PipeTransform {
                     return `Продукт ${productId} изменил свой сататус`;
                 }
             case ProductEventType.REMOVED:
+                return `Продукт ${productId} удален из очереди`;
+            case ProductEventType.AUTO_REMOVE:
                 return `Продукт ${productId} удален из очереди после такта`;
             case ProductEventType.CLEAR:
                 return `Очередь была очищена`;

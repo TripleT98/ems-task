@@ -1,0 +1,20 @@
+<div appearance="floating" tuiCardLarge class="info">
+    @let statInfo = statusInfo();
+
+    <header
+        tuiHeader="body-l"
+        class="info__header"
+        [class.info__header--with-empty]="!statInfo.length"
+    >
+        <h6 tuiTitle>Данные линии</h6>
+    </header>
+    @if (statInfo.length) {
+        @for (info of statInfo; track info.status) {
+            <div tuiCell="m" class="info__cell">
+                <app-ui-product-status [status]="info.status" /> <span>{{ info.amount }}</span>
+            </div>
+        }
+    } @else {
+        <app-ui-empty-content [imageSize]="100" />
+    }
+</div>

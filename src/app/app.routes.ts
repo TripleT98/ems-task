@@ -16,4 +16,13 @@ export const routes: Routes = [
         ],
         loadComponent: () => import('@pages/main-page/main-page'),
     },
+    {
+        path: '',
+        redirectTo: AppRoutes.MAIN_ROUTE,
+        pathMatch: 'full',
+    },
+    {
+        path: '**',
+        redirectTo: AppRoutes.MAIN_ROUTE,
+    },
 ];

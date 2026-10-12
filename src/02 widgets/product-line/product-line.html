@@ -1,25 +1,49 @@
+@let prods = products();
+
 <div tuiCardLarge appearance="floating" class="container">
     <ng-container [ngTemplateOutlet]="header" />
     <tui-scrollbar>
-        <div class="container__line">
-            @for (product of products(); track product.id) {
-                <app-ui-product class="container__product" [product]="product">
-                    <ng-container
-                        product-actions
-                        [ngTemplateOutlet]="productAction"
-                        [ngTemplateOutletContext]="{ product }"
-                    />
-                </app-ui-product>
-            }
-        </div>
+        @if (prods.length) {
+            <div
+                class="container__line"
+                [style.--pop-animation-duration]="POP_ANIMATION_DURATION + 'ms'"
+            >
+                @for (product of prods; track product.id) {
+                    <div
+                        class="container__product"
+                        [class.container__product--fresh]="freshIds.has(product.id)"
+                        animate.leave="container__product--leave"
+                    >
+                        <app-ui-product
+                            [product]="product"
+                            class="container__content"
+                            [class.container__content--fresh]="freshIds.has(product.id)"
+                            animate.leave="container__content--leave"
+                        >
+                            <ng-container
+                                product-actions
+                                [ngTemplateOutlet]="productAction"
+                                [ngTemplateOutletContext]="{ product }"
+                            />
+                        </app-ui-product>
+                    </div>
+                }
+            </div>
+        } @else {
+            <app-ui-empty-content [imageSize]="50" />
+        }
     </tui-scrollbar>
     <ng-container [ngTemplateOutlet]="actions" />
 </div>
 
 <ng-template #header>
-    <header tuiHeader class="container__header">
+    <header
+        tuiHeader
+        class="container__header"
+        [class.container__header--with-empty]="!prods.length"
+    >
         <h3 tuiTitle>
-            Очередь продуктов
+            <span class="container__title">Очередь продуктов</span>
             <div tuiSubtitle class="container__subtitle">
                 Продукты движутся от входного датчика к датчику отбраковки
             </div>
@@ -36,7 +60,6 @@
 <ng-template #actions>
     <div class="container__actions">
         <app-next-tack-button />
-        <app-add-product-button />
         <app-clear-line-button />
     </div>
 </ng-template>

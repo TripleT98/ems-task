@@ -41,3 +41,56 @@ $bottom-height: calc(100% - ($top-height + $gap));
         flex-shrink: 0;
     }
 }
+
+@media (max-width: 1024px) {
+    $left-width: 70%;
+    $mid-width: calc(100% - ($left-width + $gap));
+    $right-width: 100%;
+    .bottom {
+        flex-wrap: wrap;
+
+        &__left {
+            width: $left-width;
+        }
+
+        &__mid {
+            width: $mid-width;
+            flex-shrink: 1;
+        }
+
+        &__right {
+            width: $right-width;
+        }
+    }
+}
+
+@media (max-width: 860px) {
+    ::ng-deep,
+    app-product-line {
+        .container__statuses {
+            .status__text {
+                display: none !important;
+            }
+        }
+    }
+}
+
+@media (max-width: 830px) {
+    $left-width: 100%;
+    $right-width: 100%;
+    .bottom {
+        flex-wrap: wrap;
+
+        &__left {
+            width: $left-width;
+        }
+
+        &__mid {
+            display: none;
+        }
+
+        &__right {
+            width: $right-width;
+        }
+    }
+}

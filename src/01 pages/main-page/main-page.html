@@ -5,7 +5,9 @@
     <div class="bottom__left">
         <app-product-create-form />
     </div>
-    <div class="bottom__mid"></div>
+    <div class="bottom__mid">
+        <app-ui-product-line-info [products]="productLineService.productsOnLine()" />
+    </div>
     <div class="bottom__right">
         <app-product-journal />
     </div>

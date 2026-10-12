@@ -1,0 +1,27 @@
+:host {
+    display: block;
+    height: 100%;
+}
+
+.info {
+    height: 100%;
+
+    &__header {
+        margin: 0 !important;
+
+        &--with-empty {
+            color: var(--tui-text-tertiary);
+        }
+    }
+
+    &__cell {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+}
+
+app-ui-empty-content {
+    margin: 0;
+    height: 100%;
+}

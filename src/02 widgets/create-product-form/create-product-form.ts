@@ -14,14 +14,15 @@ import type { MaskitoOptions } from '@maskito/core';
 import { TuiButton, TuiTextfield, TuiInput, TuiIcon } from '@taiga-ui/core';
 import { ProductStatus } from '@entities/product/models/product.model';
 import { formatDate } from '@shared/utils/date';
-import { TuiCardLarge } from '@taiga-ui/layout';
+import { TuiCardLarge, TuiHeader } from '@taiga-ui/layout';
 import { ProductLineService } from '@entities/product/services/product-line.service';
 import { TuiTooltip } from '@taiga-ui/kit';
 import { statusText } from '@entities/product/consts/statuses';
+import { uniqueValueValidator } from '@shared/utils/validation';
 
 export interface ProductDraft {
     id: string;
-    addedAt: string;
+    timestamp: string;
     status: string;
 }
 
@@ -37,6 +38,7 @@ export interface ProductDraft {
         TuiCardLarge,
         TuiTooltip,
         TuiIcon,
+        TuiHeader,
     ],
     templateUrl: './create-product-form.html',
     styleUrl: './create-product-form.scss',
@@ -52,7 +54,7 @@ export class CreateProductFormComponent implements OnInit, OnDestroy {
 
     readonly productModel = signal<ProductDraft>({
         id: '',
-        addedAt: formatDate(this.now()),
+        timestamp: formatDate(this.now()),
         status: statusText.get(ProductStatus.IN_QUEUE) as string,
     });
 
@@ -61,25 +63,13 @@ export class CreateProductFormComponent implements OnInit, OnDestroy {
             message: 'Введите ID продукта',
         });
 
-        validate(path.id, ({ value }) => {
-            if (!value()) {
-                return null;
-            }
-            if (!/^P-\d{5}$/.test(value())) {
-                return {
-                    kind: 'productIdFormat',
-                    message: 'Формат ID: P-00001',
-                };
-            }
-            if (this.existingIds().includes(value())) {
-                return {
-                    kind: 'productIdTaken',
-                    message: 'Продукт с таким ID уже существует',
-                };
-            }
-            return null;
-        });
-        disabled(path.addedAt);
+        uniqueValueValidator(
+            () => this.existingIds(),
+            (id: string) => id,
+            'Продукт с таким ID уже существует',
+        )(path.id);
+
+        disabled(path.timestamp);
         disabled(path.status);
     });
 
@@ -99,7 +89,7 @@ export class CreateProductFormComponent implements OnInit, OnDestroy {
 
             this.productModel.update((product) => ({
                 ...product,
-                addedAt: formatDate(currentDate),
+                timestamp: formatDate(currentDate),
             }));
         }, 1000);
     }
@@ -115,14 +105,18 @@ export class CreateProductFormComponent implements OnInit, OnDestroy {
             this.productForm.id().markAsTouched();
             return;
         }
+        const producData = {
+            id: this.productModel().id,
+            timestamp: new Date().getTime(),
+            status: ProductStatus.IN_QUEUE,
+        };
+
         this.productCreated.emit({
             ...this.productModel(),
         });
-        this.productModel.update((product) => ({
-            ...product,
-            id: '',
-            addedAt: formatDate(this.now()),
-            status: statusText.get(ProductStatus.IN_QUEUE) as string,
-        }));
+
+        this.productLineService.addProduct(producData);
+
+        this.productForm.id().reset('');
     }
 }

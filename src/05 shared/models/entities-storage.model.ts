@@ -1,25 +1,9 @@
 import { signal } from '@angular/core';
 import { StorageService } from '@shared/models/storage.model';
-import { Subject } from 'rxjs';
-
-// export enum EntityStoreEventType {
-//     PATCH = 'patch',
-//     PUT = 'put',
-//     DELETE = 'delete'
-// }
-
-// export type EntityStoreEvent<T> = {
-//     type: EntityStoreEventType,
-//     value: T,
-//     oldValue?: T,
-// }
 
 export abstract class EntityStore<T, D extends string> {
     private readonly _entities = signal<T[]>([]);
     readonly entities = this._entities.asReadonly();
-
-    // private readonly event$ = new Subject<EntityStoreEvent<T>>()
-    // readonly eventObs = this.event$.asObservable()
 
     constructor(
         private readonly idParam: keyof T,
@@ -42,18 +26,12 @@ export abstract class EntityStore<T, D extends string> {
             this.compareItems(itemToPatch, item) ? { ...item, ...patchedItem } : item,
         );
         const status = this.updateStorage(newItems);
-        // if (status) {
-        //     this.event$.next({ type: EntityStoreEventType.PUT, value: {...itemToPatch, ...patchedItem}, oldValue: itemToPatch })
-        // }
         return status;
     }
 
     put(newItem: T) {
         const newItems = [...this.entities(), newItem];
         const status = this.updateStorage(newItems);
-        // if (status) {
-        //     this.event$.next({ type: EntityStoreEventType.PUT, value: newItem })
-        // }
         return status;
     }
 
@@ -71,9 +49,6 @@ export abstract class EntityStore<T, D extends string> {
         }, []);
 
         const status = this.updateStorage(newItems);
-        // if (status) {
-        //     this.event$.next({ type: EntityStoreEventType.DELETE, value: itemToDelete })
-        // }
         return status;
     }
 

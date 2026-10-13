@@ -4,6 +4,7 @@
     tuiButton
     iconStart="@tui.trash"
     (click)="clearLine()"
+    [disabled]="!productLineService.productsOnLine().length"
 >
     Очистить линию
 </button>

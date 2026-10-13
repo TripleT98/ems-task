@@ -18,10 +18,13 @@ import { TuiTooltip } from '@taiga-ui/kit';
 import { statusText } from '@entities/product/consts/statuses';
 import { uniqueValueValidator } from '@shared/utils/validation';
 import { ValidationErrors } from '@shared/const/validation.errors';
+import { DEFAUL_NOTIFICATION_DURATION } from '@shared/const/notification';
+import { NotificationService } from '@shared/services/notification.service';
+import { takeUntil, timer } from 'rxjs';
 
 export type ProductDraft = {
-    [key in keyof Product]: string
-}
+    [key in keyof Product]: string;
+};
 
 @Component({
     selector: 'app-product-create-form',
@@ -75,7 +78,10 @@ export class CreateProductFormComponent implements OnInit, OnDestroy {
 
     private timerId?: ReturnType<typeof setInterval>;
 
-    constructor(protected productLineService: ProductLineService) {}
+    constructor(
+        protected productLineService: ProductLineService,
+        private notificationService: NotificationService,
+    ) {}
 
     ngOnInit(): void {
         this.timerId = setInterval(() => {
@@ -107,8 +113,18 @@ export class CreateProductFormComponent implements OnInit, OnDestroy {
             status: ProductStatus.IN_QUEUE,
         };
 
-        this.productLineService.addProduct(producData);
-
-        this.productForm.id().reset('');
+        const result = this.productLineService.addProduct(producData);
+        if (!result) {
+            const duration = DEFAUL_NOTIFICATION_DURATION;
+            this.notificationService
+                .showMessage(`Не удалось создать продукт`, {
+                    appearance: 'negative',
+                    autoClose: duration,
+                })
+                .pipe(takeUntil(timer(duration)))
+                .subscribe();
+        } else {
+            this.productForm.id().reset('');
+        }
     }
 }

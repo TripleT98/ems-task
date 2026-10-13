@@ -7,7 +7,7 @@ export class StorageService<Keys extends string> {
         try {
             this.webStorage.setItem(key, JSON.stringify(value ?? null));
         } catch (e: unknown) {
-            console.error('[LocalStorageService] set', { key }, e);
+            console.error('[StorageService] set', { key }, e);
             return false;
         }
 
@@ -19,7 +19,7 @@ export class StorageService<Keys extends string> {
             const item: string | null = this.webStorage.getItem(key);
             return isNonNullable(item) ? (JSON.parse(item) as T) : null;
         } catch (e) {
-            console.error('[LocalStorageService] get', { key }, e);
+            console.error('[StorageService] get', { key }, e);
             return null;
         }
     }
@@ -28,7 +28,7 @@ export class StorageService<Keys extends string> {
         try {
             keys.forEach((key: Keys) => this.webStorage.removeItem(key));
         } catch (e) {
-            console.error('[LocalStorageService] remove', { keys }, e);
+            console.error('[StorageService] remove', { keys }, e);
             return false;
         }
 

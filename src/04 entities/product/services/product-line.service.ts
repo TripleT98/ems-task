@@ -41,6 +41,9 @@ export class ProductLineService {
 
     runNextTact() {
         const firstItem = this.productsStoreService.entities()[0];
+        if (!firstItem) {
+            return false;
+        }
         const result = this.productsStoreService.delete(firstItem.id);
         if (result) {
             this.event$.next(ProductLineEventCreator.removeEvent(firstItem));

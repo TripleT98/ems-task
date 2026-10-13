@@ -1,1 +1,9 @@
-<button size="s" tuiButton iconStart="@tui.play" (click)="runNextTact()">Следующий такт</button>
+<button
+    size="s"
+    tuiButton
+    iconStart="@tui.play"
+    (click)="runNextTact()"
+    [disabled]="!productLineService.productsOnLine().length"
+>
+    Следующий такт
+</button>

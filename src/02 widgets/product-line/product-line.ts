@@ -55,7 +55,7 @@ export class ProductLine {
 
     protected readonly POP_ANIMATION_DURATION = 1000;
 
-    protected readonly openedDropdowns: { [productId: string]: boolean } = {} 
+    protected readonly openedDropdowns: { [productId: string]: boolean } = {};
 
     constructor(private productLineService: ProductLineService) {
         this.observeLineEvents().pipe(takeUntilDestroyed()).subscribe();
@@ -63,10 +63,10 @@ export class ProductLine {
         effect(() => {
             this.products().forEach(({ id }) => {
                 if (!Object.prototype.hasOwnProperty.call(this.openedDropdowns, id)) {
-                    this.toggleProductDropdownStatus(id, false)
+                    this.toggleProductDropdownStatus(id, false);
                 }
-            })
-        })
+            });
+        });
     }
 
     private observeLineEvents() {
@@ -91,6 +91,6 @@ export class ProductLine {
     }
 
     toggleProductDropdownStatus(productId: string, status: boolean) {
-        this.openedDropdowns[productId] = status
+        this.openedDropdowns[productId] = status;
     }
 }

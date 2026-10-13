@@ -22,7 +22,8 @@
             animation: expand calc(var(--pop-animation-duration) / 2) ease-in forwards;
         }
         &--leave {
-            animation: expand calc(var(--pop-animation-duration) / 2) ease-in calc(var(--pop-animation-duration) / 2) forwards reverse;
+            animation: expand calc(var(--pop-animation-duration) / 2) ease-in
+                calc(var(--pop-animation-duration) / 2) forwards reverse;
         }
     }
 
